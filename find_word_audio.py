@@ -15,16 +15,17 @@ import datetime
 r = sr.Recognizer()
 
 try:
-# The audio file
+    # The audio file
     path = sys.argv[1]
 
     # The word to looking for in the audio file
     word_search = sys.argv[2]
+    word_search = word_search.lower()
 
     # The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
     language = sys.argv[3]
 except:
-    print ("Please gives the arguments: path, word and language")
+    print ("Please enter the arguments: path of the audio file, the word you want search and language of audio")
     sys.exit()
 
 # create and open a file to write
@@ -102,6 +103,7 @@ def get_large_audio_transcription(path):
             # try converting it to text
             try:
                 text = r.recognize_google(audio_listened , language=language)
+                text = text.lower()
                 # find a word in the texe
                 find_word = text.find(word_search)
                 # checks if this chunk's text include the word, then estimate time
@@ -132,5 +134,9 @@ def get_large_audio_transcription(path):
 print ("Start to convert audio to text and search your word in it, be patient :)")
 get_large_audio_transcription(path)
 print ("The end")
-# uncomment it if you want to see the whole text of wav file in terminal
+# uncomment the line below, if you want to see the whole text of wav file in the terminal
 # print("\nFull text:", get_large_audio_transcription(path))
+
+# Remove the cunks folder in tmp, chunks_folder_path
+# If you don't want to remove the files, just comment the line below.
+os.remove(chunks_folder_path)
