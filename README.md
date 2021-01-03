@@ -12,12 +12,9 @@ Install requirements: `pip3 install -r requirements.txt`
 
 
 ## Run the script
-open find_word_audio.py and edit these lines then save it:
+Enter the path of the audio file and the word you want to shearch for, as a command argument, such as the following example:
 
-* `path = "Your-Audio_file.wav"` 
-* `word_search = "You_word_to_search"`
-
-then run it: `python3 find_word_audio.py`
+`python3 find_word_audio.py file-test.wav "word"`
 
 
 
