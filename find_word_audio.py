@@ -20,6 +20,9 @@ path = sys.argv[1]
 # The word to looking for in the audio file
 word_search = sys.argv[2]
 
+# The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
+language = sys.argv[3]
+
 # create and open a file to write
 text_audio = open("text_speech.txt", "a")
 
@@ -94,7 +97,7 @@ def get_large_audio_transcription(path):
             audio_listened = r.record(source)
             # try converting it to text
             try:
-                text = r.recognize_google(audio_listened , language="en-US")
+                text = r.recognize_google(audio_listened , language=language)
                 # find a word in the texe
                 find_word = text.find(word_search)
                 # checks if this chunk's text include the word, then estimate time

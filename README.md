@@ -12,9 +12,13 @@ Install requirements: `pip3 install -r requirements.txt`
 
 
 ## Run the script
-Enter the path of the audio file and the word you want to shearch for, as a command argument, such as the following example:
+Enter the path of the audio file, the word you want to search for and the language of your audio file as a command arguments, such as the following example:
 
-`python3 find_word_audio.py file-test.wav "word"`
+`python3 find_word_audio.py file-test.wav "word" "en-US"`
+
+If your audio file is Farsi, language becomes: "fa-IR"
+If your audio file is Turkish, language becomes: "tr-TR"
+
 
 
 
