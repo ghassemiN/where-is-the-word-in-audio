@@ -20,3 +20,15 @@ open find_word_audio.py and edit these lines then save it:
 then run it: `python3 find_word_audio.py`
 
 
+
+
+## Run with Docker 
+
+open find_word_audio.py and edit these lines then save it:
+
+* `path = "Your-Audio_file.wav"` 
+* `word_search = "You_word_to_search"`
+
+then Build your image `docker build -t find-word-audio:latest .`
+
+Run docker: `docker run -it find-word-audio:latest`
