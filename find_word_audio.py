@@ -1,5 +1,6 @@
 # importing libraries 
-import wave , sys, time
+import wave
+import sys
 import contextlib
 import speech_recognition as sr 
 import os 
@@ -14,10 +15,10 @@ import datetime
 r = sr.Recognizer()
 
 # The audio file
-path = "Your-Audio_file.wav"
+path = sys.argv[1]
 
 # The word to looking for in the audio file
-word_search = "You_word_to_search"
+word_search = sys.argv[2]
 
 # create and open a file to write
 text_audio = open("text_speech.txt", "a")
