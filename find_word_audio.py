@@ -14,14 +14,18 @@ import datetime
 # create a speech recognition object
 r = sr.Recognizer()
 
+try:
 # The audio file
-path = sys.argv[1]
+    path = sys.argv[1]
 
-# The word to looking for in the audio file
-word_search = sys.argv[2]
+    # The word to looking for in the audio file
+    word_search = sys.argv[2]
 
-# The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
-language = sys.argv[3]
+    # The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
+    language = sys.argv[3]
+except:
+    print ("Please gives the arguments: path, word and language")
+    sys.exit()
 
 # create and open a file to write
 text_audio = open("text_speech.txt", "a")
