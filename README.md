@@ -6,15 +6,17 @@ So all you need is a wav file, and a word to looking for.
 ## Requrments:
 before run the script in terminal, be sure that you've already installed python3 and ffmpeg.
 
-###If you have not installed ffmpeg on your machine already: `apt update && apt install -y ffmpeg`
+If you have not installed ffmpeg on your machine already: `apt update && apt install -y ffmpeg`
 
 Install requirements: `pip3 install -r requirements.txt`
 
 
 ## Run the script
 open find_word_audio.py and edit these lines then save it:
-`path = "Your-Audio_file.wav"`
-`word_search = "You_word_to_search"`
+
+* `path = "Your-Audio_file.wav"` 
+* `word_search = "You_word_to_search"`
+
 then run it: `python3 find_word_audio.py`
 
 
