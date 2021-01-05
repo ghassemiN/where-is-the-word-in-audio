@@ -17,11 +17,9 @@ r = sr.Recognizer()
 try:
     # The audio file
     path = sys.argv[1]
-
     # The word to looking for in the audio file
     word_search = sys.argv[2]
     word_search = word_search.lower()
-
     # The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
     language = sys.argv[3]
 except:
@@ -130,13 +128,15 @@ def get_large_audio_transcription(path):
     return whole_text
 
 
-
 print ("Start to convert audio to text and search your word in it, be patient :)")
 get_large_audio_transcription(path)
+# Remove the cunks folder in tmp, chunks_folder_path
+# If you don't want to remove the files, just comment the line below.
+os.remove(chunks_folder_path)
 print ("The end")
 # uncomment the line below, if you want to see the whole text of wav file in the terminal
 # print("\nFull text:", get_large_audio_transcription(path))
 
-# Remove the cunks folder in tmp, chunks_folder_path
-# If you don't want to remove the files, just comment the line below.
-os.remove(chunks_folder_path)
+
+
+
