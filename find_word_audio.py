@@ -1,3 +1,4 @@
+
 # importing libraries 
 import wave
 import sys
@@ -37,31 +38,31 @@ chunks_duration_list = []
 
 # a function that checks a wav file duration
 def get_wav_duration(path):
-	with contextlib.closing(wave.open(path,'r')) as f:
-	    frames = f.getnframes()
-	    rate = f.getframerate()
-	    duration = frames / float(rate)
-	return(duration)
+    with contextlib.closing(wave.open(path,'r')) as f:
+        frames = f.getnframes()
+        rate = f.getframerate()
+        duration = frames / float(rate)
+    return(duration)
 
 # a function that gives an estimated time (begin and end) for the word in a wav file
 # It needs the chunks name and duration lists and the chunk file that involves the word
 def word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word):
-	# The begin and end times indicate the range in which you will find the word
-	begin_time = 0
-	index = chunks_name_list.index(chunk_include_word)
-	for i in range(0, index):
-		# calculate the begin time of the chunk file involved the word
-		begin_time =  begin_time + chunks_duration_list[i]	
-	#calculate the end time of the chunk file involved the word
-	end_time = begin_time + chunks_duration_list[index]
-	# round begin and end time
-	begin_time = math.floor(begin_time)
-	end_time = math.ceil(end_time)
-	begin_time = str(datetime.timedelta(seconds=begin_time))
-	end_time = str(datetime.timedelta(seconds=end_time))
+    # The begin and end times indicate the range in which you will find the word
+    begin_time = 0
+    index = chunks_name_list.index(chunk_include_word)
+    for i in range(0, index):
+        # calculate the begin time of the chunk file involved the word
+        begin_time =  begin_time + chunks_duration_list[i]  
+    #calculate the end time of the chunk file involved the word
+    end_time = begin_time + chunks_duration_list[index]
+    # round begin and end time
+    begin_time = math.floor(begin_time)
+    end_time = math.ceil(end_time)
+    begin_time = str(datetime.timedelta(seconds=begin_time))
+    end_time = str(datetime.timedelta(seconds=end_time))
 
-	return begin_time, end_time
-	
+    return begin_time, end_time
+    
 
 # a function that splits the audio file into chunks
 # and applies speech recognition
@@ -106,11 +107,11 @@ def get_large_audio_transcription(path):
                 find_word = text.find(word_search)
                 # checks if this chunk's text include the word, then estimate time
                 if find_word != -1 :
-                	chunk_include_word = f"chunk{i}.wav"
-                	begin_time , end_time = word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word)
-                	print ("The word you are searching for is between: ", begin_time, " and ", end_time )
-                	
-     			# write the text in the file
+                    chunk_include_word = f"chunk{i}.wav"
+                    begin_time , end_time = word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word)
+                    print ("The word you are searching for is between: ", begin_time, " and ", end_time )
+                    
+                # write the text in the file
                 text_audio.write(text)
             except sr.UnknownValueError as e:
                 print("Error:", str(e))
@@ -136,7 +137,4 @@ os.remove(chunks_folder_path)
 print ("The end")
 # uncomment the line below, if you want to see the whole text of wav file in the terminal
 # print("\nFull text:", get_large_audio_transcription(path))
-
-
-
 
