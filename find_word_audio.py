@@ -133,8 +133,8 @@ print ("Start to convert audio to text and search your word in it, be patient :)
 get_large_audio_transcription(path)
 # Remove the cunks folder in tmp, chunks_folder_path
 # If you don't want to remove the files, just comment the line below.
-os.remove(chunks_folder_path)
+#os.remove(chunks_folder_path)
 print ("The end")
-# uncomment the line below, if you want to see the whole text of wav file in the terminal
+# uncomment the line below, if you want to see the whole text of wav file in the etrminal
 # print("\nFull text:", get_large_audio_transcription(path))
 
