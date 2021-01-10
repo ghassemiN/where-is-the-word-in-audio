@@ -11,30 +11,14 @@ from os import path
 from pydub import AudioSegment
 import math
 import datetime
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
 
 # create a speech recognition object
 r = sr.Recognizer()
 
-try:
-    # The audio file
-    path = sys.argv[1]
-    # The word to looking for in the audio file
-    word_search = sys.argv[2]
-    word_search = word_search.lower()
-    # The language of audio file, it could be english (en-US), Farsi(fa-IR), Turkish(tr-TR) and ...
-    language = sys.argv[3]
-except:
-    print ("Please enter the arguments: path of the audio file, the word you want search and language of audio")
-    sys.exit()
 
-# create and open a file to write
-text_audio = open("text_speech.txt", "a")
-
-# create a list to store chunks name
-chunks_name_list = []
-
-# create a list to store chunk's duration
-chunks_duration_list = []
 
 # a function that checks a wav file duration
 def get_wav_duration(path):
@@ -44,11 +28,14 @@ def get_wav_duration(path):
         duration = frames / float(rate)
     return(duration)
 
+
+
 # a function that gives an estimated time (begin and end) for the word in a wav file
 # It needs the chunks name and duration lists and the chunk file that involves the word
 def word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word):
     # The begin and end times indicate the range in which you will find the word
     begin_time = 0
+    end_time = 0
     index = chunks_name_list.index(chunk_include_word)
     for i in range(0, index):
         # calculate the begin time of the chunk file involved the word
@@ -64,9 +51,31 @@ def word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_wo
     return begin_time, end_time
     
 
+
+
 # a function that splits the audio file into chunks
 # and applies speech recognition
-def get_large_audio_transcription(path):
+def get_large_audio_transcription(path, word_search, language):
+
+    path = path
+    word_search = word_search
+    language = language
+
+    # create and open a file to write
+    text_audio = open("text_speech.txt", "a")
+
+    # create a list to store chunks name
+    chunks_name_list = []
+
+    # create a list to store chunk's duration
+    chunks_duration_list = []
+
+    # begin and end time of estimate time
+    find_times = {}
+    # A list for add find_times dictionary
+    list_times = []
+
+
     """
     Splitting the large audio file into chunks
     and apply speech recognition on each of these chunks
@@ -109,32 +118,39 @@ def get_large_audio_transcription(path):
                 if find_word != -1 :
                     chunk_include_word = f"chunk{i}.wav"
                     begin_time , end_time = word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word)
-                    print ("The word you are searching for is between: ", begin_time, " and ", end_time )
-                    
+                    find_times = {
+                        'begin_time': begin_time,
+                        'end_time': end_time
+                    }
+                    list_times.append(find_times)
                 # write the text in the file
                 text_audio.write(text)
             except sr.UnknownValueError as e:
                 print("Error:", str(e))
             else:
                 text = f"{text.capitalize()}. "
-                # uncomment it if you want to see the text of every chunks in terminal
-                # print(chunk_filename, ":", text)
                 whole_text += text
 
     
     # close the file 
-    text_audio.close()
+    #text_audio.close()
 
-    # return the text for all chunks detected and estimated time that includes the word you are searching for
-    return whole_text
+    
+    return (list_times)
 
 
-print ("Start to convert audio to text and search your word in it, be patient :)")
-get_large_audio_transcription(path)
-# Remove the cunks folder in tmp, chunks_folder_path
-# If you don't want to remove the files, just comment the line below.
-#os.remove(chunks_folder_path)
-print ("The end")
-# uncomment the line below, if you want to see the whole text of wav file in the etrminal
-# print("\nFull text:", get_large_audio_transcription(path))
 
+@app.route('/', methods = ["GET", "POST"])
+def home():
+    if request.method == "POST":
+        path = request.form.get('path')
+        word_search = request.form.get('word_search')
+        language = request.form.get('language')
+
+    get_times = get_large_audio_transcription(path, word_search, language)
+    return jsonify(get_times)
+
+
+
+if __name__=='__main__':
+    app.run(debug=True)
