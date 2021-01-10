@@ -19,7 +19,6 @@ app = Flask(__name__)
 r = sr.Recognizer()
 
 
-
 # a function that checks a wav file duration
 def get_wav_duration(path):
     with contextlib.closing(wave.open(path,'r')) as f:
@@ -27,7 +26,6 @@ def get_wav_duration(path):
         rate = f.getframerate()
         duration = frames / float(rate)
     return(duration)
-
 
 
 # a function that gives an estimated time (begin and end) for the word in a wav file
@@ -50,8 +48,6 @@ def word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_wo
 
     return begin_time, end_time
     
-
-
 
 # a function that splits the audio file into chunks
 # and applies speech recognition
@@ -118,10 +114,12 @@ def get_large_audio_transcription(path, word_search, language):
                 if find_word != -1 :
                     chunk_include_word = f"chunk{i}.wav"
                     begin_time , end_time = word_estimated_time(chunks_name_list, chunks_duration_list, chunk_include_word)
+                    # create a dictionary of begin and end time.
                     find_times = {
                         'begin_time': begin_time,
                         'end_time': end_time
                     }
+                    # Append the dictionary to a list as a result
                     list_times.append(find_times)
                 # write the text in the file
                 text_audio.write(text)
@@ -133,11 +131,9 @@ def get_large_audio_transcription(path, word_search, language):
 
     
     # close the file 
-    #text_audio.close()
+    text_audio.close()
 
-    
     return (list_times)
-
 
 
 @app.route('/', methods = ["GET", "POST"])
