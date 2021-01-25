@@ -3,6 +3,7 @@ import contextlib
 import wave
 
 
+
 path = "test.wav"
 
 class TestStringMethods(unittest.TestCase):

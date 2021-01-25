@@ -123,7 +123,7 @@ class WordInAudio():
 						# Append the dictionary to a list as a result
 						list_times.append(find_times)
 					# write the text in the file
-					text_audio.write(text)
+					# text_audio.write(text)
 				except sr.UnknownValueError as e:
 					print("Error:", str(e))
 				else:
